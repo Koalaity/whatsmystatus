@@ -1,6 +1,6 @@
 
-const {app, BrowserWindow, Notification, Menu, Tray} = require('electron');
-const rpc = require('discord-rich-presence');
+const {app, BrowserWindow, Notification, Menu, Tray, ipcMain} = require('electron');
+const rpc = require('discord-rich-presence')('562322869921513565');
 const trayMenu = Menu.buildFromTemplate([
   {label: 'Show', click: createWindow, visible: false},
   {label: 'Quit', click: app.quit}
@@ -12,6 +12,7 @@ function createWindow() {
   tray.setContextMenu(trayMenu);
   let window = new BrowserWindow({ width: 800, height: 600 });
   window.loadFile('pages/index.html');
+  window.setMenu(null);
 }
 
 app.on('ready', () => {
@@ -29,4 +30,8 @@ app.on('window-all-closed', () => {
     body: "Hey, WhatsMyStatus is still running in your system tray!"
   });
   stillOpen.show();
+});
+
+ipcMain.on('submitStatus', function(event, data) {
+  
 });
